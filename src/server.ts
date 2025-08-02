@@ -1,16 +1,27 @@
+/* eslint-disable no-console */
 import {Server} from 'http';
 import app from './app';
 
 let server: Server;
 
 const pushStartServer = async() => {
-   server = app.listen(3000, () => {
-        console.log('Server is running');
-    })
+   try {
+    server = app.listen(3000, () => {
+      console.log("Server is running");
+    });
+   } catch (error) {
+    console.log(error);
+   }
 }
 
 
 pushStartServer();
+
+const stopEngine = (signal: string, error?: unknown) => {
+    console.log(`${signal} detected. Server is shutting down...`);
+
+
+}
 
 process.on("SIGINT", () => {
     console.log("SIGINT detected. Server is going down...");

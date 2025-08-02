@@ -1,0 +1,23 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
+interface IEnv {
+  PORT: number;
+  DB_URI: string;
+}
+
+export const env = (): IEnv => {
+  const envVars: string[] = ["PORT", "DB_URI"];
+
+  envVars.forEach((val) => {
+    if (!process.env[val]) {
+      throw new Error(`${val} is not available in .env file`);
+    }
+  });
+
+  return {
+    PORT: Number(process.env.PORT as string),
+    DB_URI: process.env.DB_URI as string,
+  };
+};
