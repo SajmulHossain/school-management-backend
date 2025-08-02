@@ -24,13 +24,13 @@ const studentSchema = new Schema<IStudent>({
         enum: Object.values(IGender),
         required: true
     },
-     group: {
+    group: {
         type: String,
         enum: Object.values(IGroup)
-     },
-     guardians: [Schema.Types.ObjectId],
-     roll: { type: Number, min: 1 },
-     section: { type: String, enum: Object.values(ISection) }
+    },
+    guardians: [Schema.Types.ObjectId],
+    roll: { type: Number, min: 1 },
+    section: { type: String, enum: Object.values(ISection) }
 }, { versionKey: false, timestamps: true });
 
 export const Student = model("Student", studentSchema);
