@@ -22,7 +22,7 @@ const commentSchema = new Schema<IComment>({
     text: {
         type: String,
         trim: true,
-        min: 1
+        minlength: 1
     },
     isDeleted: {
         type: Boolean,

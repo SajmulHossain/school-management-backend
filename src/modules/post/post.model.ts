@@ -6,12 +6,12 @@ const postSchema = new Schema<IPost>(
     heading: {
       type: String,
       trim: true,
-      min: 0
+      minlength: 0
     },
     text: {
       type: String,
       trim: true,
-      min: 0
+      minlength: 0
     },
     photo: {
       type: String,

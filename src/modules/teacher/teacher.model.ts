@@ -47,7 +47,7 @@ const teacherSchema = new Schema<ITeacher>({
         type: String,
         required: true,
         trim: true,
-        min: 3
+        minlength: 3
     },
     email: {
         type: String,
@@ -69,7 +69,7 @@ const teacherSchema = new Schema<ITeacher>({
     introduction: {
         type: String,
         required: true,
-        min: 20
+        minlength: 20
     },
     educations: [teacherEduSchema],
     expertise: {
