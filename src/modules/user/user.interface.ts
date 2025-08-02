@@ -18,6 +18,20 @@ export enum IGender {
   female = "female",
 }
 
+export enum GuardinaRelation {
+  father = "father",
+  mother = "mother",
+  brother = "brother",
+  sister = "sister",
+  uncle = "uncle",
+  anty = "anty",
+}
+
+export interface ChildRelation {
+  relation: GuardinaRelation,
+  child: Types.ObjectId;
+}
+
 export interface IUser {
   name: string;
   email?: string;
@@ -26,7 +40,7 @@ export interface IUser {
   photo?: string;
   role: Role;
   auth_info: IAuthInfo[];
-  childs?: Types.ObjectId[];
+  childs?:ChildRelation[];
   gender: IGender;
   profileData?: Types.ObjectId[];
   isDeleted: boolean;
