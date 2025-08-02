@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { IAuthInfo, IUser, Role } from "./user.interface";
+import { IAuthInfo, IGender, IUser, Role } from "./user.interface";
 
 const authInfoSchema = new Schema<IAuthInfo>({
     provider: {
@@ -35,18 +35,18 @@ const userSchema = new Schema<IUser>({
     photo: { type: String },
     auth_info: [authInfoSchema],
     childs: [Schema.Types.ObjectId],
-    guardians: [Schema.Types.ObjectId],
     password: { type: String },
+    profileData: [Schema.Types.ObjectId],
     gender: {
         type: String,
-        enum: ['male', 'female'],
+        enum: Object.values(IGender),
         required: true
     },
     role: {
         type: String,
         enum: Object.values(Role),
         required: true
-    },    
+    },
 }, { versionKey: false, timestamps: true });
 
 export const User = model("User", userSchema);

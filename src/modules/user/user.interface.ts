@@ -13,12 +13,9 @@ export interface IAuthInfo {
   providerID: string;
 }
 
-export interface IStudentPosition {
-    class: number;
-    section: 'A' | 'B' | 'C';
-    roll: number;
-    combinedRoll: number;
-    year: number;
+export enum IGender {
+  male = "male",
+  female = "female",
 }
 
 export interface IUser {
@@ -29,7 +26,7 @@ export interface IUser {
   photo?: string;
   role: Role;
   auth_info: IAuthInfo[];
-  guardians?: Types.ObjectId[];
   childs?: Types.ObjectId[];
-  gender: "male" | "female";
+  gender: IGender;
+  profileData?: Types.ObjectId[];
 }
