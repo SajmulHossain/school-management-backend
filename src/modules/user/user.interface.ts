@@ -29,4 +29,6 @@ export interface IUser {
   childs?: Types.ObjectId[];
   gender: IGender;
   profileData?: Types.ObjectId[];
+  isDeleted: boolean;
+  isDisabled: boolean;
 }

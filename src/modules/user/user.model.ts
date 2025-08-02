@@ -47,6 +47,14 @@ const userSchema = new Schema<IUser>({
         enum: Object.values(Role),
         required: true
     },
+    isDeleted: {
+        type:  Boolean,
+        default: false
+    },
+    isDisabled: {
+        type:  Boolean,
+        default: false
+    }
 }, { versionKey: false, timestamps: true });
 
 export const User = model("User", userSchema);
