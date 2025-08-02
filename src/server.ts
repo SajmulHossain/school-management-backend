@@ -1,85 +1,51 @@
 /* eslint-disable no-console */
-import {Server} from 'http';
-import app from './app';
+import { Server } from "http";
+import mongoose from "mongoose";
+import app from "./app";
+import { connectDB, disconnectDB } from "./config/db.config";
+import { env } from "./config/env.config";
 
 let server: Server;
 
-const pushStartServer = async() => {
-   try {
-    server = app.listen(3000, () => {
-      console.log("Server is running");
+const pushStartServer = async () => {
+  try {
+    await connectDB();
+    server = app.listen(env.PORT, () => {
+      console.log("Server is running on PORT:" + env.PORT);
     });
-   } catch (error) {
+  } catch (error) {
     console.log(error);
-   }
-}
+  }
+};
 
+(async() => {
+   await pushStartServer();
+})()
 
-pushStartServer();
+const stopServer = async (signal: string, error?: unknown) => {
+  console.log(`${signal} detected. Server is shutting down...`);
 
-const stopEngine = (signal: string, error?: unknown) => {
-    console.log(`${signal} detected. Server is shutting down...`);
+  if(error) console.log(error);
 
-
-}
-
-process.on("SIGINT", () => {
-    console.log("SIGINT detected. Server is going down...");
-
-    if(server) {
-        server.close(() => {
-            process.exit(1);
-        })
+  try {
+    if (mongoose.connection.readyState === 1) {
+      await disconnectDB();
     }
 
+    if (server) {
+      server.close(() => {
+        process.exit(signal === "SIGINT" || signal === "SIGTERM" ? 0 : 1);
+      });
+    } else {
+      process.exit(signal === "SIGINT" || signal === "SIGTERM" ? 0 : 1);
+    }
+  } catch (error) {
+    console.log("Error during shutdonw", error);
     process.exit(1);
-})
+  }
+};
 
-process.on("SIGTERM", () => {
-    console.log("SIGTERM detected. Server is going down...");
-
-    if(server) {
-        server.close(() => {
-            process.exit(1);
-        })
-    }
-
-    process.exit(1);
-})
-
-process.on("unhandledRejection", () => {
-    console.log('UnhandleRejection detected. Server is going down...');
-
-    if(server) {
-        server.close(() => {
-            process.exit(1);
-        })
-    }
-
-    process.exit(1);    
-})
-
-process.on("uncaughtException", () => {
-    console.log("uncaughtException detected. Server is going down...");
-
-    if(server) {
-        server.close(() => {
-            process.exit(1);
-        })
-    }
-
-    process.exit(1);    
-})
-
-process.on("", () => {
-    console.log("uncaughtException detected. Server is going down...");
-
-    if(server) {
-        server.close(() => {
-            process.exit(1);
-        })
-    }
-
-    process.exit(1);    
-})
-
+process.on("SIGINT",() => stopServer("SIGINT"));
+process.on("SIGTERM",() => stopServer("SIGTERM"));
+process.on("uncaughtException", (error) => stopServer("uncaughtException", error));
+process.on("unhandledRejection", (error) => stopServer("unhandledRejection", error));
