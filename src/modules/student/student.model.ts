@@ -3,6 +3,7 @@ import { IClass, IGroup, ISection, IStudent } from "./student.interface";
 import { IGender } from "../user/user.interface";
 
 const studentSchema = new Schema<IStudent>({
+    acc_id: Schema.Types.ObjectId,
     name: {
         type: String,
         trim: true,

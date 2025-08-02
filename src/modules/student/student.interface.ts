@@ -30,6 +30,7 @@ export enum IGroup {
 }
 
 export interface IStudent {
+    acc_id?: Types.ObjectId;
     name: string;
     group?: IGroup;
     gender: IGender;

@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 import { IReward } from "./reward.interface";
 
-const rewardSchema = new Schema<IReward>(
+export const rewardSchema = new Schema<IReward>(
   {
     title: {
       type: String,
