@@ -1,7 +1,7 @@
 import z from "zod";
 import { IGender, Role } from "../user/user.interface";
 
-export const userRegistrationSchema = z.object({
+export const userRegistrationZodSchema = z.object({
   name: z.string().min(2).trim(),
   email: z.email().optional(),
   phone: z

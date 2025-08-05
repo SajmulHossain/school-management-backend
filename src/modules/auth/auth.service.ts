@@ -1,12 +1,14 @@
+import { AppError } from "../../utils/AppError";
 import { IUser } from "../user/user.interface";
 import { User } from "../user/user.model";
 
 const register = async (payload: IUser) => {
-    console.log(payload);
-    const {email} = payload;
-    const isUserExist = await User.isUserExit(email);
-    console.log(isUserExist);
+    const { email, phone } = payload;
+    const isUserExist = await User.isUserExist({ $or: [{ email }, { phone }] });
     
+    if(isUserExist) {
+        throw new AppError(400, 'User alredy exist')
+    }
 }
 
 export const AuthService = {

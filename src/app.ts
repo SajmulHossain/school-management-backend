@@ -4,6 +4,8 @@ import { globalErrorHandle } from "./middlewares/globalErrorHandle";
 
 const app = express();
 
+app.use(express.json());
+
 app.use("/api/v1", router);
 
 app.get("/", (req, res) => {

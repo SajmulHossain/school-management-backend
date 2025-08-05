@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/AppError";
+import { handleZodError } from "../helpers/error/zodError";
 
 export const globalErrorHandle = (
   error: any,
@@ -11,9 +12,14 @@ export const globalErrorHandle = (
 ) => {
   let message = "Something Went Wrong";
   let statusCode = 500;
-  console.log("from GB Err--->", error, " gb Error");
+  let errorSources = [];
 
-  if (error instanceof AppError) {
+  // console.log("from GB Err--->", error, " gb Error");
+  
+if(error.name === 'ZodError') {
+ errorSources = handleZodError(error);
+}
+ else if (error instanceof AppError) {
     message = error.message;
     statusCode = error.statusCode;
   } else if (error instanceof Error) {
@@ -23,6 +29,8 @@ export const globalErrorHandle = (
   res.status(statusCode).json({
     success: false,
     message,
+    errorSources,
+    error,
     stack: error.stack,
   });
 };

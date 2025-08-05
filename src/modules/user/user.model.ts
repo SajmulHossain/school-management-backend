@@ -1,5 +1,9 @@
-import { model, Schema } from "mongoose";
+import { FilterQuery, Model, model, Schema } from "mongoose";
 import { ChildRelation, GuardinaRelation, IAuthInfo, IGender, IUser, Role } from "./user.interface";
+
+interface IUserStaticMethods extends Model<IUser> {
+  isUserExist(query: FilterQuery<IUser>): Promise<IUser | null>
+}
 
 const authInfoSchema = new Schema<IAuthInfo>({
     provider: {
@@ -26,7 +30,7 @@ const childRelationSchema = new Schema<ChildRelation>({
     }
 }, {versionKey: false, timestamps: true})
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, IUserStaticMethods>(
   {
     name: {
       type: String,
@@ -74,10 +78,10 @@ const userSchema = new Schema<IUser>(
     timestamps: true,
     statics: {
       isUserExist: async function (query) {
-        return await this.findOne({ query });
+        return await this.findOne( query);
       },
     },
   }
 );
 
-export const User = model("User", userSchema);
+export const User = model<IUser, IUserStaticMethods>("User", userSchema);
