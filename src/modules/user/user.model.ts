@@ -69,7 +69,15 @@ const userSchema = new Schema<IUser>(
       default: false,
     },
   },
-  { versionKey: false, timestamps: true }
+  {
+    versionKey: false,
+    timestamps: true,
+    statics: {
+      isUserExist: async function (query) {
+        return await this.findOne({ query });
+      },
+    },
+  }
 );
 
 export const User = model("User", userSchema);
