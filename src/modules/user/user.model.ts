@@ -34,8 +34,9 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
   {
     name: {
       type: String,
-      minlength: 2,
-      required: true,
+      minlength: [2, "Name should atleast 2 characters"],
+      maxlength: [40, "Name length should less than 40"],
+      required: [true, "Name is required"],
       trim: true,
     },
     email: {
@@ -45,7 +46,6 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     },
     phone: {
       type: String,
-      required: true,
       trim: true,
       unique: true,
     },
@@ -56,13 +56,16 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     profileData: [Schema.Types.ObjectId],
     gender: {
       type: String,
-      enum: Object.values(IGender),
-      required: true,
+      enum: {
+        values: Object.values(IGender),
+        message: `'{VALUE}' is not valid gender. Give Male or Female`
+      },
+      required: [true, "Gender is required"],
     },
     role: {
       type: String,
       enum: Object.values(Role),
-      required: true,
+      required: [true, "Role is required"]
     },
     isDeleted: {
       type: Boolean,
@@ -78,7 +81,7 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     timestamps: true,
     statics: {
       isUserExist: async function (query) {
-        return await this.findOne( query);
+        return await this.findOne(query);
       },
     },
   }

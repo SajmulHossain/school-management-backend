@@ -4,8 +4,9 @@ import { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/AppError";
 import { handleZodError } from "../helpers/error/zodError";
 import { handleValidationError } from "../helpers/error/validationError";
+import { env } from "../config/env.config";
 
-interface IErrorSources {
+interface IErrors {
   path: PropertyKey;
   message: string;
 }
@@ -18,17 +19,16 @@ export const globalErrorHandle = (
 ) => {
   let message = "Something Went Wrong";
   let statusCode = 500;
-  let errorSources: IErrorSources[] = [];
+  let errors: IErrors[] = [];
 
   // console.log("from GB Err--->", error, " gb Error");
 
-  if(error.name === 'ValidationError') {
-   errorSources = handleValidationError(error);
-  }
- else if (error.name === "ZodError") {
+  if (error.name === "ValidationError") {
+    errors = handleValidationError(error);
+  } else if (error.name === "ZodError") {
     statusCode = 400;
     message = "ZodError";
-    errorSources = handleZodError(error);
+    errors = handleZodError(error);
   } else if (error instanceof AppError) {
     message = error.message;
     statusCode = error.statusCode;
@@ -39,8 +39,8 @@ export const globalErrorHandle = (
   res.status(statusCode).json({
     success: false,
     message,
-    errorSources,
-    error,
-    stack: error.stack,
+    errors,
+    error: env.NODE_ENV === "development" ? error : undefined,
+    stack: env.NODE_ENV === "development" ? error.stack : undefined,
   });
 };
