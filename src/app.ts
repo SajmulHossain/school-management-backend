@@ -1,9 +1,9 @@
-import express from 'express';
+import express from "express";
 
 const app = express();
 
 app.get("/", (req, res) => {
-    res.send("Server is running");
-})
+  res.json({ message: "School Management Server" });
+});
 
 export default app;

@@ -6,6 +6,7 @@ interface IEnv {
   PORT: number;
   DB_URI: string;
   NODE_ENV: string;
+  BCRYPT_SALT_ROUND: number;
 }
 
 const loadEnv = (): IEnv => {
@@ -21,6 +22,7 @@ const loadEnv = (): IEnv => {
     PORT: Number(process.env.PORT as string),
     DB_URI: process.env.DB_URI as string,
     NODE_ENV: process.env.NODE_ENV as string,
+    BCRYPT_SALT_ROUND: Number(process.env.BCRYPT_SALT_ROUND as string),
   };
 };
 
