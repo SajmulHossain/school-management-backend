@@ -3,6 +3,12 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/AppError";
 import { handleZodError } from "../helpers/error/zodError";
+import { handleValidationError } from "../helpers/error/validationError";
+
+interface IErrorSources {
+  path: PropertyKey;
+  message: string;
+}
 
 export const globalErrorHandle = (
   error: any,
@@ -12,14 +18,18 @@ export const globalErrorHandle = (
 ) => {
   let message = "Something Went Wrong";
   let statusCode = 500;
-  let errorSources = [];
+  let errorSources: IErrorSources[] = [];
 
   // console.log("from GB Err--->", error, " gb Error");
-  
-if(error.name === 'ZodError') {
- errorSources = handleZodError(error);
-}
- else if (error instanceof AppError) {
+
+  if(error.name === 'ValidationError') {
+   errorSources = handleValidationError(error);
+  }
+ else if (error.name === "ZodError") {
+    statusCode = 400;
+    message = "ZodError";
+    errorSources = handleZodError(error);
+  } else if (error instanceof AppError) {
     message = error.message;
     statusCode = error.statusCode;
   } else if (error instanceof Error) {
