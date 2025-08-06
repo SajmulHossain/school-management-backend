@@ -5,6 +5,7 @@ import { AppError } from "../utils/AppError";
 import { handleZodError } from "../helpers/error/zodError";
 import { handleValidationError } from "../helpers/error/validationError";
 import { env } from "../config/env.config";
+import { handleDuplicateError } from "../helpers/error/mongoose.duplicate.error";
 
 interface IErrors {
   path: PropertyKey;
@@ -27,6 +28,11 @@ export const globalErrorHandle = (
     message = 'Validation Error';
     statusCode = 400;
     errors = handleValidationError(error);
+  } else if(error.code === 11000) {
+    statusCode = 400;
+    message = 'Duplicate Error'
+    const { message: msg, path} = handleDuplicateError(error);
+    errors = [{message: msg, path}];
   } else if (error.name === "ZodError") {
     statusCode = 400;
     message = "ZodError";

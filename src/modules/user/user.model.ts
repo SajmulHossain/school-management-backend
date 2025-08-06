@@ -13,8 +13,7 @@ const authInfoSchema = new Schema<IAuthInfo>({
     },
     providerID: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     }
 })
 
@@ -53,7 +52,7 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     auth_info: [authInfoSchema],
     childs: [childRelationSchema],
     password: { type: String },
-    profileData: [Schema.Types.ObjectId],
+    profileData: Schema.Types.ObjectId,
     gender: {
       type: String,
       enum: {
