@@ -24,6 +24,8 @@ export const globalErrorHandle = (
   // console.log("from GB Err--->", error, " gb Error");
 
   if (error.name === "ValidationError") {
+    message = 'Validation Error';
+    statusCode = 400;
     errors = handleValidationError(error);
   } else if (error.name === "ZodError") {
     statusCode = 400;

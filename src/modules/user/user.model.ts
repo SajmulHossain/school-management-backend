@@ -58,14 +58,17 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
       type: String,
       enum: {
         values: Object.values(IGender),
-        message: `'{VALUE}' is not valid gender. Give Male or Female`
+        message: `'{VALUE}' is not valid gender. Give Male or Female`,
       },
       required: [true, "Gender is required"],
     },
     role: {
       type: String,
-      enum: Object.values(Role),
-      required: [true, "Role is required"]
+      enum: {
+        values: Object.values(Role),
+        message: "'{VALUE}' is not a valid role. Give student or guardian"
+      },
+      required: [true, "Role is required"],
     },
     isDeleted: {
       type: Boolean,
