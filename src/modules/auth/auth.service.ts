@@ -10,22 +10,18 @@ const register = async (payload: IUser) => {
         throw new AppError(400, 'You must provide email or phone');
     }
 
-    // const filterQuery = [] as Record<string, string>[];
-
-    // if(email) filterQuery.push({email})
-    // if(phone) filterQuery.push({phone})
-    
-    const isUserExist = await User.isUserExist({email, phone});
+    const auth = (email || phone) as string;
+    const isUserExist = await User.isUserExist(auth);
 
     
     if(isUserExist) {
-        throw new AppError(400, 'User alredy exist')
+        throw new AppError(400, `An account is already exist with ${auth}`);
     }
 
     payload.auth_info = [
         {
             provider: 'credential',
-            providerID: (email || phone) as string,
+            providerID: auth,
         }
     ]
 

@@ -1,4 +1,4 @@
-import { FilterQuery, Model, model, Schema } from "mongoose";
+import { Model, model, Schema } from "mongoose";
 import {
   ChildRelation,
   GuardinaRelation,
@@ -9,7 +9,7 @@ import {
 } from "./user.interface";
 
 interface IUserStaticMethods extends Model<IUser> {
-  isUserExist(query: FilterQuery<IUser>): Promise<IUser | null>;
+  isUserExist(query: string): Promise<IUser | null>;
 }
 
 const authInfoSchema = new Schema<IAuthInfo>(
@@ -108,9 +108,8 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     versionKey: false,
     timestamps: true,
     statics: {
-      isUserExist: async function (...queries) {
-        const query = queries.map(query => query?.email ? { email: query.email } : query.phone ? { phone: query.phone } : { _id: query.id })[0];
-        return await this.findOne(query);
+      isUserExist: async function (query) {
+        return await this.findOne({ $or: [{ email: query }, { phone: query }] });
       },
     },
   }
