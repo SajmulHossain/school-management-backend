@@ -38,7 +38,7 @@ export const userRegistrationZodSchema = z.object({
   role: z.enum([Role.guardian, Role.student]),
 });
 
-export const loginZodSchema = z
+export const userLoginZodSchema = z
   .object({
     email: z.email("Provide a valid email").optional(),
     phone: z
@@ -62,6 +62,6 @@ export const loginZodSchema = z
         error: "Password must contain at least 1 number.",
       }),
   })
-  .refine((data) => data.email || data.phone, {
+  .refine((data) => !data.email || !data.phone, {
     error: "Please provide your email or password",
   });

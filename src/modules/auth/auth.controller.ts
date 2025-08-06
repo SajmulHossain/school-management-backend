@@ -19,6 +19,10 @@ const login = catchAsync(async(req: Request, res: Response) => {
     const { email, password, phone } = req.body;
 
     const auth = email || phone;
+
+    if(!auth) {
+        throw new AppError(400, 'Please give your email or number')
+    }
     
     const isUserExist = await User.isUserExist(auth);
     
