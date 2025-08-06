@@ -49,7 +49,7 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     name: {
       type: String,
       minlength: [2, "Name should atleast 2 characters"],
-      maxlength: [40, "Name length should less than 40"],
+      maxlength: [50, "Name length should less than 50"],
       required: [true, "Name is required"],
       trim: true,
     },
@@ -57,11 +57,13 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
       type: String,
       trim: true,
       unique: true,
+      sparse: true
     },
     phone: {
       type: String,
       trim: true,
       unique: true,
+      sparse: true
     },
     photo: { type: String },
     auth_info: {
@@ -71,7 +73,10 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
         message: "You must provide auth info",
       },
     },
-    childs: [childRelationSchema],
+    childs: {
+      type: [childRelationSchema],
+      default: undefined
+    },
     password: { type: String },
     profileData: Schema.Types.ObjectId,
     gender: {
@@ -104,18 +109,11 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     timestamps: true,
     statics: {
       isUserExist: async function (query) {
+        console.log(query);
         return await this.findOne(query);
       },
     },
   }
 );
-
-userSchema.pre("save", async function(next) {
-  if(this.role === Role.student) {
-    this.childs = undefined
-  }
-
-  next();
-})
 
 export const User = model<IUser, IUserStaticMethods>("User", userSchema);
