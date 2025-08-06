@@ -3,7 +3,7 @@ import { Response } from "express";
 interface IResponseData<T> {
   statusCode: number;
   message: string;
-  data: T;
+  data?: T;
   meta?: {
     limit?: number;
     page?: number;

@@ -62,7 +62,6 @@ export const loginZodSchema = z
         error: "Password must contain at least 1 number.",
       }),
   })
-  .readonly()
   .refine((data) => data.email || data.phone, {
     error: "Please provide your email or password",
   });
