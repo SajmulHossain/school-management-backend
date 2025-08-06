@@ -108,8 +108,8 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     versionKey: false,
     timestamps: true,
     statics: {
-      isUserExist: async function (query) {
-        console.log(query);
+      isUserExist: async function (...queries) {
+        const query = queries.map(query => query?.email ? { email: query.email } : query.phone ? { phone: query.phone } : { _id: query.id })[0];
         return await this.findOne(query);
       },
     },

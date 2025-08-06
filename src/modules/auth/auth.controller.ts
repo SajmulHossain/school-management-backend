@@ -12,6 +12,12 @@ const register = catchAsync(async(req:Request, res: Response) => {
     })
 })
 
+const login = catchAsync(async(req: Request, res: Response) => {
+    const { email, password, phone } = req.body;
+
+    
+})
+
 export const AuthController = {
     register
 }

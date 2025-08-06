@@ -6,18 +6,16 @@ import { User } from "../user/user.model";
 const register = async (payload: IUser) => {
     const { email, phone } = payload;
 
-    console.log(email, phone);
-
     if(!email && !phone) {
         throw new AppError(400, 'You must provide email or phone');
     }
 
-    const filterQuery = [] as Record<string, string>[];
+    // const filterQuery = [] as Record<string, string>[];
 
-    if(email) filterQuery.push({email})
-    if(phone) filterQuery.push({phone})
+    // if(email) filterQuery.push({email})
+    // if(phone) filterQuery.push({phone})
     
-    const isUserExist = await User.isUserExist({ $or: filterQuery });
+    const isUserExist = await User.isUserExist({email, phone});
 
     
     if(isUserExist) {

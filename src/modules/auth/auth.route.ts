@@ -7,4 +7,5 @@ const router = Router();
 
 router.post("/register", validateRequest(userRegistrationZodSchema), AuthController.register);
 
+
 export const AuthRoutes = router;
