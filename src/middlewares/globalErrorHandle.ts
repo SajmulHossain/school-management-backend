@@ -21,7 +21,7 @@ export const globalErrorHandle = (
   let statusCode = 500;
   let errors: IErrors[] = [];
 
-  // console.log("from GB Err--->", error, " gb Error");
+  console.log("from GB Err--->", error, " gb Error");
 
   if (error.name === "ValidationError") {
     message = 'Validation Error';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from "express";
 import { ZodObject } from "zod";
 
@@ -6,7 +7,7 @@ export const validateRequest = (zodSchema: ZodObject) => {
     try {
       req.body = await zodSchema.parseAsync(req.body);
       next();
-    } catch (error) {
+    } catch (error: any) {
       next(error);
     }
   };

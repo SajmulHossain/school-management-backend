@@ -2,26 +2,30 @@ import z from "zod";
 import { IGender, Role } from "../user/user.interface";
 
 export const userRegistrationZodSchema = z.object({
-  name: z.string().min(2).trim(),
-  email: z.email().optional(),
+  name: z.string('Please give string value').min(2, {
+    error: iss => `Name should atleast ${iss.minimum} characters long`
+  }).max(50, {
+    error: iss => `Name should within ${iss.maximum} characters`
+  }).trim(),
+  email: z.email({error: (iss) => `${iss.input} is not valid email`}).optional(),
   phone: z
-    .string({ message: "Phone Number must be string" })
+    .string({ error: "Phone Number must be string" })
     .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
-      message:
+      error:
         "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX or 01XXXXXXXXX",
     })
     .optional(),
   password: z
-    .string({ message: "Password must be string" })
-    .min(8, { message: "Password must be at least 8 characters long." })
+    .string({ error: "Password must be string" })
+    .min(8, { error: "Password must be at least 8 characters long." })
     .regex(/^(?=.*[A-Z])/, {
-      message: "Password must contain at least 1 uppercase letter.",
+      error: "Password must contain at least 1 uppercase letter.",
     })
     .regex(/^(?=.*[!@#$%^&*])/, {
-      message: "Password must contain at least 1 special character.",
+      error: "Password must contain at least 1 special character.",
     })
     .regex(/^(?=.*\d)/, {
-      message: "Password must contain at least 1 number.",
+      error: "Password must contain at least 1 number.",
     }),
     gender: z.enum(Object.values(IGender)),
     role: z.enum([Role.guardian, Role.student]),
