@@ -10,11 +10,18 @@ const register = async (payload: IUser) => {
         throw new AppError(400, 'You must provide email or phone');
     }
     
-    // const isUserExist = await User.isUserExist({ $or: [{ email }, { phone }] });
+    const isUserExist = await User.isUserExist({ $or: [{ email }, { phone }] });
     
-    // if(isUserExist) {
-    //     throw new AppError(400, 'User alredy exist')
-    // }
+    if(isUserExist) {
+        throw new AppError(400, 'User alredy exist')
+    }
+
+    payload.auth_info = [
+        {
+            provider: 'credential',
+            providerID: (email || phone) as string,
+        }
+    ]
 
     payload.password = await hashPassword(payload.password as string);
 

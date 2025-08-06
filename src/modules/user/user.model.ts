@@ -1,33 +1,48 @@
 import { FilterQuery, Model, model, Schema } from "mongoose";
-import { ChildRelation, GuardinaRelation, IAuthInfo, IGender, IUser, Role } from "./user.interface";
+import {
+  ChildRelation,
+  GuardinaRelation,
+  IAuthInfo,
+  IGender,
+  IUser,
+  Role,
+} from "./user.interface";
 
 interface IUserStaticMethods extends Model<IUser> {
-  isUserExist(query: FilterQuery<IUser>): Promise<IUser | null>
+  isUserExist(query: FilterQuery<IUser>): Promise<IUser | null>;
 }
 
-const authInfoSchema = new Schema<IAuthInfo>({
+const authInfoSchema = new Schema<IAuthInfo>(
+  {
     provider: {
-        type: String,
-        enum: ["google", "facebook", "credential"],
-        required: true
+      type: String,
+      enum: ["google", "facebook", "credential"],
+      required: true,
     },
     providerID: {
-        type: String,
-        required: true
-    }
-})
+      type: String,
+      required: true,
+    },
+  },
+  {
+    _id: false,
+  }
+);
 
-const childRelationSchema = new Schema<ChildRelation>({
+const childRelationSchema = new Schema<ChildRelation>(
+  {
     child: {
-        type: Schema.ObjectId,
-        required: true
+      type: Schema.ObjectId,
+      required: true,
     },
     relation: {
-        type: String,
-        required: true,
-        enum: Object.values(GuardinaRelation)
-    }
-}, {versionKey: false, timestamps: true})
+      type: String,
+      required: true,
+      enum: Object.values(GuardinaRelation),
+    },
+  },
+  { _id: false, timestamps: true }
+);
 
 const userSchema = new Schema<IUser, IUserStaticMethods>(
   {
@@ -49,7 +64,13 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
       unique: true,
     },
     photo: { type: String },
-    auth_info: [authInfoSchema],
+    auth_info: {
+      type: [authInfoSchema],
+      validate: {
+        validator: (value) => value.length,
+        message: "You must provide auth info",
+      },
+    },
     childs: [childRelationSchema],
     password: { type: String },
     profileData: Schema.Types.ObjectId,
@@ -65,7 +86,7 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
       type: String,
       enum: {
         values: Object.values(Role),
-        message: "'{VALUE}' is not a valid role. Give student or guardian"
+        message: "'{VALUE}' is not a valid role. Give student or guardian",
       },
       required: [true, "Role is required"],
     },
@@ -88,5 +109,13 @@ const userSchema = new Schema<IUser, IUserStaticMethods>(
     },
   }
 );
+
+userSchema.pre("save", async function(next) {
+  if(this.role === Role.student) {
+    this.childs = undefined
+  }
+
+  next();
+})
 
 export const User = model<IUser, IUserStaticMethods>("User", userSchema);
