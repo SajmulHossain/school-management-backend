@@ -10,6 +10,7 @@ export const userRegistrationZodSchema = z.object({
   email: z.email({error: (iss) => `${iss.input} is not valid email`}).optional(),
   phone: z
     .string({ error: "Phone Number must be string" })
+    .min(11, "Number must be 11 character long")
     .regex(/^(?:\+8801\d{9}|01\d{9})$/, {
       error:
         "Phone number must be valid for Bangladesh. Format: +8801XXXXXXXXX or 01XXXXXXXXX",

@@ -5,6 +5,11 @@ import { User } from "../user/user.model";
 
 const register = async (payload: IUser) => {
     const { email, phone } = payload;
+
+    if(!email || !phone) {
+        throw new AppError(400, 'You must provide email or phone');
+    }
+    
     const isUserExist = await User.isUserExist({ $or: [{ email }, { phone }] });
     
     if(isUserExist) {

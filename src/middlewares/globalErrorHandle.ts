@@ -19,7 +19,7 @@ export const globalErrorHandle = (
 ) => {
   let message = "Something Went Wrong";
   let statusCode = 500;
-  let errors: IErrors[] = [];
+  let errors: IErrors[] | Record<string, string[]> = [];
 
   console.log("from GB Err--->", error, " gb Error");
 
