@@ -24,7 +24,19 @@ const getCommentForPosts = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getReplies = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const data = await CommentService.getReplies(id);
+
+  sendResponse(res, {
+    message: "Replies retrive Successfull",
+    statusCode: 200,
+    data,
+  });
+});
+
 export const CommentController = {
     postComment,
-    getCommentForPosts
+    getCommentForPosts,
+    getReplies
 }
