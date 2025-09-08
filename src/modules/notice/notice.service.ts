@@ -5,6 +5,11 @@ const createNotice = async(data: INotice) => {
     return await Notice.create(data);
 } 
 
+const getAllNotices = async() => {
+    return await Notice.find();
+}
+
 export const NoticeService = {
-    createNotice
+    createNotice,
+    getAllNotices
 }
