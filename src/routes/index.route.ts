@@ -2,6 +2,7 @@ import { Router } from "express";
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { CommentRouter } from "../modules/comment/comment.route";
 import { NoticeRoutes } from "../modules/notice/notice.route";
+import { PostRoutes } from "../modules/post/post.route";
 
 export const router = Router();
 
@@ -22,6 +23,10 @@ const routes: IRouter[] = [
   {
     path: "/notices",
     route: NoticeRoutes
+  },
+  {
+    path: "/posts",
+    route: PostRoutes
   }
 ];
 
