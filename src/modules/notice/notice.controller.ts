@@ -23,7 +23,18 @@ const getAllNotices = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleNotice = catchAsync(async (req: Request, res: Response) => {
+  const data = await NoticeService.getSingleNotice(req.params.id);
+
+  sendResponse(res, {
+    message: "Notice retrived successfully",
+    statusCode: 200,
+    data,
+  });
+});
+
 export const NoticeController = {
   createNotice,
   getAllNotices,
+  getSingleNotice,
 };
