@@ -23,7 +23,7 @@ const deletePostByUser = async (postId: string, userId: string) => {
     throw new AppError(403, "You cannot delete this post");
   }
 
-  await Post.findByIdAndDelete(postId);
+  await Post.findByIdAndUpdate(postId, { isDeleted: true });
 };
 
 export const PostServices = {

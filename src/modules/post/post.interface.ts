@@ -12,4 +12,5 @@ export interface IPost {
     photo?: string;
     visibility: string[];
     author: Types.ObjectId;
+    isDeleted: boolean;
 }

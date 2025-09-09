@@ -26,6 +26,10 @@ const postSchema = new Schema<IPost>(
       type: Schema.Types.ObjectId,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { versionKey: false, timestamps: true }
 );
