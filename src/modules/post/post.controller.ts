@@ -24,7 +24,18 @@ const getNewsFeed = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deletePostByUser = catchAsync(async(req: Request, res: Response) => {
+  const data = await PostServices.deletePostByUser(req.user.id, req.params.id);
+
+  sendResponse(res, {
+    statusCode: 200,
+    message: "Post deleted",
+    data
+  })
+})
+
 export const PostController = {
   createPost,
-  getNewsFeed
+  getNewsFeed,
+  deletePostByUser
 };
