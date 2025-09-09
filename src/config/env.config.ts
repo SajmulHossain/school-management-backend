@@ -7,10 +7,12 @@ interface IEnv {
   DB_URI: string;
   NODE_ENV: string;
   BCRYPT_SALT_ROUND: number;
-  ACCESS_TOKEN_SECRET: string;
-  ACCESS_TOKEN_VALIDITY: string;
-  REFRESH_TOKEN_SECRET: string;
-  REFRESH_TOKEN_VALIDITY: string;
+  JWT: {
+    ACCESS_TOKEN_SECRET: string;
+    ACCESS_TOKEN_VALIDITY: string;
+    REFRESH_TOKEN_SECRET: string;
+    REFRESH_TOKEN_VALIDITY: string;
+  };
 }
 
 const loadEnv = (): IEnv => {
@@ -35,10 +37,12 @@ const loadEnv = (): IEnv => {
     DB_URI: process.env.DB_URI as string,
     NODE_ENV: process.env.NODE_ENV as string,
     BCRYPT_SALT_ROUND: Number(process.env.BCRYPT_SALT_ROUND as string),
-    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET as string,
-    ACCESS_TOKEN_VALIDITY: process.env.ACCESS_TOKEN_VALIDITY as string,
-    REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
-    REFRESH_TOKEN_VALIDITY: process.env.REFRESH_TOKEN_VALIDITY as string,
+    JWT: {
+      ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET as string,
+      ACCESS_TOKEN_VALIDITY: process.env.ACCESS_TOKEN_VALIDITY as string,
+      REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
+      REFRESH_TOKEN_VALIDITY: process.env.REFRESH_TOKEN_VALIDITY as string,
+    },
   };
 };
 
