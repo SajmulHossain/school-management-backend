@@ -38,6 +38,8 @@ const login = catchAsync(async(req: Request, res: Response) => {
 
    isUserExist.password = undefined;
 
+   
+
     sendResponse(res, {
         message: 'Log in successfull',
         statusCode: 200,
