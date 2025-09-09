@@ -10,6 +10,10 @@ const getNewsFeed = async() => {
   return posts;
 }
 
+// const deletePost = async(id: string) => {
+
+// }
+
 export const PostServices = {
   createPost,
   getNewsFeed

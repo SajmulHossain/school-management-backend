@@ -4,6 +4,7 @@ import { PostServices } from "./post.service";
 import { sendResponse } from "../../utils/sendResponse";
 
 const createPost = catchAsync(async (req: Request, res: Response) => {
+  // const { id } = req.user;
   const data = await PostServices.createPost(req.body);
 
   sendResponse(res, {

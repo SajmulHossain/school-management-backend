@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export enum PostVisibility {
     teachers="teachers",
     guardians="guardians",
@@ -9,4 +11,5 @@ export interface IPost {
     text?: string;
     photo?: string;
     visibility: string[];
+    author: Types.ObjectId;
 }

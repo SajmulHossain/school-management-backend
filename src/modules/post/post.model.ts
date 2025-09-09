@@ -6,22 +6,26 @@ const postSchema = new Schema<IPost>(
     heading: {
       type: String,
       trim: true,
-      minlength: 0
+      minlength: 0,
     },
     text: {
       type: String,
       trim: true,
-      minlength: 0
+      minlength: 0,
     },
     photo: {
       type: String,
       trim: true,
     },
     visibility: {
-        type: [String],
-        enum: Object.values(PostVisibility),
-        default: [],
-    }
+      type: [String],
+      enum: Object.values(PostVisibility),
+      default: [],
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
