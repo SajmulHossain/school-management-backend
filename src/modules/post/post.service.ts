@@ -7,9 +7,13 @@ const createPost = async (data: IPost) => {
 };
 
 const getNewsFeed = async () => {
-  const posts = await Post.find({ isDeleted: true }).sort("-createAt");
+  const posts = await Post.find({ isDeleted: false }).sort("-createAt");
   return posts;
 };
+
+const getDeletedPosts = async () => {
+  return await Post.find({isDeleted: true});
+}
 
 const deletePostByUser = async (postId: string, userId: string) => {
   const post = await Post.findById(postId);
@@ -30,4 +34,5 @@ export const PostServices = {
   createPost,
   getNewsFeed,
   deletePostByUser,
+  getDeletedPosts
 };

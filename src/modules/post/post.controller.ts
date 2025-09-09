@@ -34,8 +34,19 @@ const deletePostByUser = catchAsync(async(req: Request, res: Response) => {
   })
 })
 
+const getDeletedPosts = catchAsync(async (req: Request, res: Response) => {
+  const data = await PostServices.getDeletedPosts();
+
+  sendResponse(res, {
+    statusCode: 200,
+    message: "Deleted posts retrived",
+    data,
+  });
+});
+
 export const PostController = {
   createPost,
   getNewsFeed,
-  deletePostByUser
+  deletePostByUser,
+  getDeletedPosts
 };
