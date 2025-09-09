@@ -5,7 +5,7 @@ import { AuthService } from "./auth.service";
 import { User } from "../user/user.model";
 import { AppError } from "../../utils/AppError";
 import { compare } from "bcryptjs";
-import { generateCookie, setCookie } from "../../utils/jwt&cookie/cookie";
+import { clearCookie, generateCookie, setCookie } from "../../utils/jwt&cookie/cookie";
 
 const register = catchAsync(async (req: Request, res: Response) => {
   const data = await AuthService.register(req.body);
@@ -54,7 +54,17 @@ const login = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const logout = catchAsync(async(req:Request, res: Response) => {
+    clearCookie(res);
+    sendResponse(res, {
+        statusCode: 200,
+        message: "Logout successfull",
+        data: undefined
+    })
+})
+
 export const AuthController = {
   register,
   login,
+  logout
 };

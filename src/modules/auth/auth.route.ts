@@ -6,6 +6,7 @@ import { userLoginZodSchema, userRegistrationZodSchema } from "./auth.validation
 const router = Router();
 
 router.post("/register", validateRequest(userRegistrationZodSchema), AuthController.register);
-router.post("/login", validateRequest(userLoginZodSchema), AuthController.login)
+router.post("/login", validateRequest(userLoginZodSchema), AuthController.login);
+router.post("/login", AuthController.logout);
 
 export const AuthRoutes = router;
