@@ -13,6 +13,17 @@ const createPost = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getNewsFeed = catchAsync(async (req: Request, res: Response) => {
+  const data = await PostServices.getNewsFeed();
+
+  sendResponse(res, {
+    statusCode: 200,
+    message: "Feed retrived successfully",
+    data,
+  });
+});
+
 export const PostController = {
   createPost,
+  getNewsFeed
 };
