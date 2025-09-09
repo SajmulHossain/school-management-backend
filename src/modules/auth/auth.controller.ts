@@ -9,7 +9,15 @@ import { clearCookie, generateCookie, setCookie } from "../../utils/jwt&cookie/c
 
 const register = catchAsync(async (req: Request, res: Response) => {
   const data = await AuthService.register(req.body);
-  const cookie = generateCookie(data);
+
+  const payload = {
+    id: data._id,
+    email: data.email,
+    phone: data.phone,
+    role: data.role
+  }
+  
+  const cookie = generateCookie(payload);
   setCookie(res, cookie);
   sendResponse(res, {
     message: "Registration Successful",
@@ -44,7 +52,14 @@ const login = catchAsync(async (req: Request, res: Response) => {
 
   isUserExist.password = undefined;
 
-  const cookie = generateCookie(isUserExist);
+ const payload = {
+   id: isUserExist._id,
+   email: isUserExist.email,
+   phone: isUserExist.phone,
+   role: isUserExist.role
+ };
+
+  const cookie = generateCookie(payload);
   setCookie(res, cookie);
 
   sendResponse(res, {
