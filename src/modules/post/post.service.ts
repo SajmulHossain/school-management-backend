@@ -7,7 +7,7 @@ const createPost = async (data: IPost) => {
 };
 
 const getNewsFeed = async () => {
-  const posts = await Post.find().sort("-createAt");
+  const posts = await Post.find({ isDeleted: true }).sort("-createAt");
   return posts;
 };
 
