@@ -44,9 +44,21 @@ const getDeletedPosts = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updatePost = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const data = await PostServices.updatePost(id, req.body);
+
+  sendResponse(res, {
+    statusCode: 201,
+    message: "Post updated successfully",
+    data,
+  });
+});
+
 export const PostController = {
   createPost,
   getNewsFeed,
   deletePostByUser,
-  getDeletedPosts
+  getDeletedPosts,
+  updatePost
 };

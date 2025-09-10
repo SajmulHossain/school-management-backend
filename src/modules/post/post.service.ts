@@ -30,9 +30,19 @@ const deletePostByUser = async (postId: string, userId: string) => {
   await Post.findByIdAndUpdate(postId, { isDeleted: true });
 };
 
+const updatePost = async(id: string, data: Partial<IPost>) => {
+  const post = await Post.findById(id);
+  if(!post) {
+    throw new AppError(404, "Post not found");
+  }
+
+  return await Post.findByIdAndUpdate(id, data, { new: true })
+}
+
 export const PostServices = {
   createPost,
   getNewsFeed,
   deletePostByUser,
-  getDeletedPosts
+  getDeletedPosts,
+  updatePost
 };
